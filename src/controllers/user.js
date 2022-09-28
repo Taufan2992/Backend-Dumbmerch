@@ -26,28 +26,6 @@ exports.getUsers = async(req,res) => {
 
     try {
         const data = await user.findAll({
-            include: [
-                {
-                    model: product,
-                    as: "products",
-                    attributes: {
-                        exclude: ["createAt", "updateAt"],
-                    },
-                },
-
-                {
-                    model: transaction,
-                    as: "buyerTransaction",
-                    message: 'ok'
-                },
-
-                {
-                    model: transaction,
-                    as: "sellerTransaction",
-                    message: 'ok'
-                },
-
-            ] 
         })
 
         res.status(201).send({
