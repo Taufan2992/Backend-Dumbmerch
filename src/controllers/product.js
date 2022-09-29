@@ -1,12 +1,19 @@
 const { product, user, category, productCategory } = require("../../models");
+const cloudinary = require('../utils/cloudinary');
 
 // membuat fungsi add prooduct ========================================================================================
 exports.addProduct = async (req, res) => {
   try {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "dumbmerch",
+      use_filename: true,
+      unique_filename: true,
+    });
+
     const newProduct = req.body;
     let products = await product.create({
       ...newProduct,
-      image: req.file.filename,
+      image: result.public_id,
       idUser: req.user.id, // diambil dari token
     });
 
