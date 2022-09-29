@@ -10,12 +10,22 @@ exports.addProduct = async (req, res) => {
       unique_filename: true,
     });
 
-    const newProduct = req.body;
-    let products = await product.create({
-      ...newProduct,
+    const newProduct = {
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
       image: result.public_id,
-      idUser: req.user.id, // diambil dari token
-    });
+      qty: req.body.qty,
+      idUser: req.user.id,
+    };;
+    let products = await product.create(
+      newProduct
+    //   {
+    //   ...newProduct,
+    //   image: result.public_id,
+    //   idUser: req.user.id, // diambil dari token
+    // }
+    );
 
     products = JSON.parse(JSON.stringify(products));
 
