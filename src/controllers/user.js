@@ -89,6 +89,11 @@ exports.getUser = async(req,res) => {
 exports.updateUser = async(req,res) => {
     
     try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: "dumbmerch",
+            use_filename: true,
+            unique_filename: true,
+          });
         const {id} = req.params
         const data = {
             name: req.body.name,
@@ -96,14 +101,21 @@ exports.updateUser = async(req,res) => {
             phone: req.body.phone,
             gender: req.body.gender,
             address: req.body.address,
-            image: req.file.filename,
+            image: result.public_id,
           };
 
-    await user.update(data, {
+    let users = await user.update(data, {
       where: {
         id,
       },
     });
+
+    users = JSON.parse(JSON.stringify(data));
+  
+    users = {
+      ...users,
+      image: process.env.FILE_PATH + req.file.filename,
+    };
 
         res.status(201).send({
             status: 'success',
