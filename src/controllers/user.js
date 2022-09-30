@@ -10,18 +10,22 @@ exports.addUsers = async(req,res) => {
             unique_filename: true,
           });
 
-        const data = req.body
-        await user.create({
-            ...data,
+        const data = {
+            name: req.body.name,
+            address: req.body.address,
+            gender: req.body.gender,
             image: result.public_id,
-        })
+            phone: req.body.phone,
+            email: req.body.email,
+          };
+        let users = await user.create(data)
 
-        // users = JSON.parse(JSON.stringify(users));
+        users = JSON.parse(JSON.stringify(data));
 
-        // users = {
-        // ...users,
-        // image: process.env.FILE_PATH + users.image,
-        // };
+        users = {
+        ...users,
+        image: process.env.FILE_PATH + req.file.image,
+        };
 
         res.status(201).send({
             status: 'success',

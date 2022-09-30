@@ -17,7 +17,7 @@ exports.addProduct = async (req, res) => {
       image: result.public_id,
       qty: req.body.qty,
       idUser: req.user.id,
-    };;
+    };
     let products = await product.create(
       newProduct
     //   {
