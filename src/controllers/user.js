@@ -1,10 +1,20 @@
 const {user, product, transaction} = require('../../models')
+const cloudinary = require('../utils/cloudinary');
 
 exports.addUsers = async(req,res) => {
 
     try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: "dumbmerch",
+            use_filename: true,
+            unique_filename: true,
+          });
+
         const data = req.body
-        await user.create(req.body)
+        await user.create({
+            ...data,
+            image: result.public_id,
+        })
 
         res.status(201).send({
             status: 'success',
