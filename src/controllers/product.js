@@ -27,7 +27,7 @@ exports.addProduct = async (req, res) => {
     // }
     );
 
-    products = JSON.parse(JSON.stringify(products));
+    products = JSON.parse(JSON.stringify(newProduct));
 
     products = {
       ...products,
@@ -152,12 +152,18 @@ exports.getDetailProduct = async (req, res) => {
   exports.updateProduct = async (req, res) => {
     const { id } = req.params;
     try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "dumbmerch",
+        use_filename: true,
+        unique_filename: true,
+      });
+      
       const data = req.body;
       console.log(data)
       let updateProduct = await product.update(
         {
           ...data,
-          image: req.file.filename,
+          image: result.public_id,
           // idUser: req.user.id,
         },
         { where: { id } }
