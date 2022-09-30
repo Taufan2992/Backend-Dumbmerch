@@ -122,8 +122,9 @@ exports.updateUser = async(req,res) => {
             message: `update user id: ${id} success`,
             data: {
                 id,
-                data,
-                image: req?.file?.filename,
+                users
+                // data,
+                // image: req?.file?.filename,
               },
         })
         
