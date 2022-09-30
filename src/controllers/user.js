@@ -11,10 +11,17 @@ exports.addUsers = async(req,res) => {
           });
 
         const data = req.body
-        await user.create({
+        let users = await user.create({
             ...data,
             image: result.public_id,
         })
+
+        users = JSON.parse(JSON.stringify(users));
+
+        users = {
+        ...users,
+        image: process.env.FILE_PATH + users.image,
+        };
 
         res.status(201).send({
             status: 'success',
