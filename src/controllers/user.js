@@ -68,9 +68,16 @@ exports.getUser = async(req,res) => {
     try {
         const {id} = req.params
 
-        const data = await user.findOne({
+        let data = await user.findOne({
             where : {id}
         })
+
+        data = JSON.parse(JSON.stringify(data));
+  
+        data = {
+          ...data,
+          image:  process.env.FILE_PATH + data.image
+        }
 
         res.status(201).send({
             status: 'success',
@@ -114,7 +121,7 @@ exports.updateUser = async(req,res) => {
   
     users = {
       ...users,
-      image: "https://res.cloudinary.com/drlr20stb/image/upload/v1661598031/" + req.file.filename,
+      image: process.env.FILE_PATH + req.file.filename,
     };
 
         res.status(201).send({
