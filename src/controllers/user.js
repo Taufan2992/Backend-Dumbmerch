@@ -114,7 +114,7 @@ exports.updateUser = async(req,res) => {
   
     users = {
       ...users,
-      image: process.env.FILE_PATH + req.file.filename,
+      image: "https://res.cloudinary.com/drlr20stb/image/upload/v1661598031/" + req.file.filename,
     };
 
         res.status(201).send({
